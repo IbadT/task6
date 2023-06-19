@@ -1,4 +1,5 @@
 const router = require('express').Router();
+const db = require('../config/database.js');
 const TodoControllers = require('../controllers/TodoControllers.js');
 const validation = require('../helpers/validation.js');
 
@@ -16,6 +17,8 @@ const validation = require('../helpers/validation.js');
  *     responses:
  *       '200':
  *         description: Seccessfull response
+ *       '403':
+ *         description: Forbidden
  */
 
 router.get('/', validation, async (req, res) => {
@@ -24,12 +27,11 @@ router.get('/', validation, async (req, res) => {
         const todos = await TodoControllers.getAllTodos();
         res.send(todos);
 
-        // const posts = await database.query('SELECT * FROM posts');
-        // res.send(posts.rows);
+        // const todos = await db.query('SELECT * FROM todos');
+        // res.send(todos.rows);
 
-        // Todos.findAll().then(data => res.send(data));
     } catch (error) {
-        console.log(error);
+        res.json(error);
     }
 });
 
@@ -65,18 +67,19 @@ router.get('/', validation, async (req, res) => {
 router.post('/create', validation, async (req, res) => {
     try {
 
-        const createdTodo = await TodoControllers.createTodo(req.body);
+        const { body } = req.body;
+        const createdTodo = await TodoControllers.createTodo(body);
         res.send(createdTodo);
-        
-        // const { title, content, user_id } = req.body;
-        // const createdPost = await database.query(
-        //     'INSERT INTO posts (title, content, user_id) values($1, $2, $3) RETURNING *',
-        // [title, content, user_id]);
-        // res.send(createdPost);
 
-        // Todos.create({ title, content, user_id }).then(data => res.send(data));
+        // const { title, content, user_id } = req.body
+        // const createdTodo = await db.query(
+        //     'INSERT INTO todos (title, content, user_id) VALUES ($1, $2, $3) RETURNING *',
+        //     [title, content, user_id]
+        // );
+        // res.send(createdTodo);
+
     } catch (error) {
-        console.log(error);
+        res.json(error);
     }
 });
 
@@ -85,7 +88,7 @@ router.post('/create', validation, async (req, res) => {
 /**
  * @swagger
  * /api/todos/update/{id}:
- *  put:
+ *   put:
  *      summary: Edites todo with {id}
  *      tags: [Postgres todos]
  *      security:
@@ -113,18 +116,29 @@ router.post('/create', validation, async (req, res) => {
  *            description: Successfull response
  *          '400':
  *            description: Todo is not defined
+ *          '403':
+ *            description: Forbidden
  */
 
 router.put('/update/:id', validation, async (req, res) => {
     try {
 
-        const updatedTodo = await TodoControllers.updateTodo(req.params.id, req.body);
+        const { id } = req.params;
+        const { body } = req;
+        console.log(id);
+        const updatedTodo = await TodoControllers.updateTodo(id, body);
         res.send(updatedTodo);
 
-        // Todos.update(req.body, { where: { id }}).findOne({ where: { id } }).then(data => res.send(data));
+        // const { id } = req.params;
+        // const { title, content, user_id } = req.body;
+        // const updatedTodo = await db.query(
+        //     'UPDATE todos SET title=$1, content=$2, user_id=$3 WHERE todos.id=$4 RETURNING *',
+        //     [title, content, user_id, id]
+        // );
+        // res.send(updatedTodo);
 
     } catch (error) {
-        console.log(error);
+        res.json(error);
     }
 });
 
@@ -145,24 +159,35 @@ router.put('/update/:id', validation, async (req, res) => {
  *         description: id of todo to delete
  *         type: string
  *     responses:
- *         '200':
- *             description: Successfull response
+ *       '200':
+ *         description: Successfull response
+ *       '403':
+ *         description: Forbidden
  */
 
 router.delete('/delete/:id', validation, async (req, res) => {
     try {
 
-        const deleteResult = await TodoControllers.deleteTodo(req.params.id);
-        if(deleteResult) {
-            res.send('Todo is deleted');
-        } else {
-            res.send('Todo not deleted');
+        const { id } = req.params;
+        TodoControllers.deleteTodo(id)
+            .then(result => result 
+                ? res.send('Phone is deleted')
+                : res.send('Phone not deleted')
+            );
+        const todos = await TodoControllers.getAllTodos();
+        if(todos.length < 1) {
+            db.query('ALTER SEQUENCE todos_id_seq RESTART WITH 1');
         };
 
-        // Todos.destroy({ where: { id } }).then(data => res.send(data));
+        // const { id } = req.params;
+        // const deleteResult = db.query(
+        //     'DELETE FROM todos WHERE todos.id=$1 LIMIT 1',
+        //     [id]
+        // );
+        // res.send(deleteResult);
 
     } catch (error) {
-        console.log(error);
+        res.json(error);
     }
 })
 

@@ -17,15 +17,18 @@ const validation = require('../helpers/validation.js');
  *     responses:
  *       '200':
  *         description: Seccessfull response
+ *       '403':
+ *         description: Forbidden
  */
 
 router.get('/', validation, async (req, res) => {
     try {
+        
         PhoneControllers.getAllPhones().then(data => res.send(data));
 
         // Phones.findAll().then(data => res.send(data));
     } catch (error) {
-        console.log(error);
+        res.json(error);
     }
 });
 
@@ -55,16 +58,18 @@ router.get('/', validation, async (req, res) => {
  *       '200':
  *         description: Seccess
  *       '403':
- *         description: Bad request
+ *         description: Forbidden
  */ 
 
 router.post('/createPhone', validation, async (req, res) => {
     try {
-        PhoneControllers.createPhone(req.body).then(data => res.send(data));
 
-        // Phones.create({ ...req.body }).then(data => res.send(data));
+        const { body } = req;
+        PhoneControllers.createPhone(body).then(data => res.send(data));
+
+        // Phones.create(req.body).then(data => res.send(data));
     } catch (error) {
-        console.log(error);
+        res.json(error);
     }
 });
 
@@ -97,21 +102,26 @@ router.post('/createPhone', validation, async (req, res) => {
  *                user_id:
  *                  type: integer
  *      responses:
- *          '200':
- *            description: Successfull response
- *          '400':
- *            description: phone is not defined
+ *        '200':
+ *          description: Successfull response
+ *        '400':
+ *          description: phone is not defined
+ *        '403':
+ *          description: Forbidden
  */
 
 router.put('/updatePhone/:id', validation, async (req, res) => {
     try {
-        PhoneControllers.updatePhone(req.params.id, req.body).then(data => res.send(data));
+
+        const { id } = req.params;
+        const { body } = req;
+        PhoneControllers.updatePhone(id, body).then(data => res.send(data));
 
         // const { id } = req.params;
         // Phones.update(req.body, { where: { id } })
         // Phones.findOne({ where: { id } }).then(data => res.send(data));
     } catch (error) {
-        console.log(error);
+        res.json(error);
     }
 });
 
@@ -138,17 +148,25 @@ router.put('/updatePhone/:id', validation, async (req, res) => {
 
 router.delete('/deletePhone/:id', validation, async (req, res) => {
     try {
-        PhoneControllers.deletePhone(req.params.id)
+
+        const { id } = req.params;
+        PhoneControllers.deletePhone(id)
             .then(result => result 
                 ? res.send('Phone is deleted') 
-                : res.send('Phone not deleted'))
+                : res.send('Phone not deleted')
+            );
+        
+        const phones = await PhoneControllers.getAllPhones();
+        if(phones.length < 1) {
+            db.query('ALTER SEQUENCE phones_id_seq RESTART WITH 1');
+        };
 
         // const { id } = req.params;
         // Phones.destroy({ where: { id: id } });
         // // console.log(deletedPhone); // 1
         // res.send('Phone is deleted');
     } catch (error) {
-        console.log(error);
+        res.json(error);
     }
 })
 

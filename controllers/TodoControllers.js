@@ -1,6 +1,7 @@
 const TodoServices = require('../services/TodoServices.js');
 
 class TodoControllers {
+
     async getAllTodos() {
         const todos = await TodoServices.getAllTodos();
         return todos;
@@ -19,7 +20,8 @@ class TodoControllers {
     async deleteTodo(id) {
         const deleteResult = await TodoServices.deleteTodo(id);
         return deleteResult;
-    }
+    };
+    
 };
 
 module.exports = new TodoControllers();

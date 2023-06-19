@@ -31,9 +31,9 @@ const Todos = db.define(
       },
     },
   },
-  {
-    timestamps: false, // поля createdAt и updatedAt не будут создаваться и не будут записываться
-  }
+  // {
+  //   timestamps: false, // поля createdAt и updatedAt не будут создаваться и не будут записываться
+  // }
 );
 
 module.exports = Todos;

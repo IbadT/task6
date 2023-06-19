@@ -5,7 +5,6 @@ const UserControllers = require('../controllers/UserControllers.js');
 
 
 
-
 /**
  * @swagger
  * /api/auth/login:
@@ -29,18 +28,20 @@ const UserControllers = require('../controllers/UserControllers.js');
  *       '200':
  *          description: Seccess
  *       '401':
- *          description: Bad request
+ *          description: Unauthorized 
  */
 
 router.post('/login', async (req, res) => {
     try {
+
         const { login, password } = req.body;
         UserControllers.login(login, password).then(token => {
             if(token === null) res.json('invalid login');
             res.send(token);
-        })
+        });
+
     } catch (error) {
-        console.log(error);
+        res.json(error);
     }
 });
 
@@ -59,25 +60,32 @@ router.post('/login', async (req, res) => {
  *           schema:
  *             type: object
  *             properties:
+ *               name:
+ *                 type: string
+ *               age:
+ *                 type: number
  *               login:
  *                 type: string
  *               password:
  *                 type: string
  *     responses:
  *       '200':
- *         description: user created
+ *         description: Seccess
  *       '401':
- *         description: user doesn't created
+ *         description: Unauthorized 
  */
 
 router.post('/register', async (req, res) => {
     try {
-        UserControllers.register(req.body).then(data => {
+
+        const { body } = req;
+        UserControllers.register(body).then(data => {
             if(data === null) res.json('This login is already used');
             res.send(data);
         });
+        
     } catch (error) {
-        console.log(error);
+        res.json(error);
     }
 });
 

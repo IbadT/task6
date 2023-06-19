@@ -44,5 +44,3 @@ const Phones = db.define(
 );
 
 module.exports = Phones;
-
-// ALTER TABLE phones ALTER COLUMN number TYPE varchar(255);

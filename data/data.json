@@ -1,0 +1,29 @@
+[
+  {
+    "title": "TEST_DATA",
+    "content": "TEST_DATA",
+    "user_id": 1
+  },
+  {
+    "name": "John",
+    "age": 12,
+    "login": "ibadt",
+    "password": "12345678"
+  },
+  {
+    "number": "7788",
+    "model": "Nokia",
+    "user_id": 1
+  },
+  {
+    "position_name": "Position for test"
+  },
+  {
+    "user_id": 1,
+    "position_id": 1
+  },
+  {
+    "test": "testData",
+    "item": 1
+  }
+]

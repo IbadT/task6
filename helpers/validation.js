@@ -9,10 +9,10 @@ const validation = (req, res, next) => {
             if(err) throw new Error('invalid token');
             req.user = user;
             next();
-        })
+        });
     } catch (error) {
         res.sendStatus(403);
-    }
+    };
 };
 
 module.exports = validation;

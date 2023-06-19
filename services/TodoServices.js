@@ -1,6 +1,7 @@
 const { Todos } = require('../models/_models.js');
 
 class TodoServices {
+
     async getAllTodos() {
         return new Promise((res, rej) => {
             Todos.findAll().then(data => res(data));
@@ -14,9 +15,9 @@ class TodoServices {
     };
 
     async updateTodo(id, body) {
-        return new Promise((res, rej) => {
-            Todos.update(body, { where: { id } });
-            Todos.findOne({ where: { id }}).then(data => res(data));
+        return new Promise(async (res, rej) => {
+            await Todos.update(body, { where: { id } });
+            await Todos.findOne({ where: { id }}).then(data => res(data));
         })
     };
 

@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 const UserServices = require('../services/UserServices.js');
 
 class UserControllers {
+
     async login(login, password) {
         const findLogin = await UserServices.findUserByLogin(login);
         if( findLogin ) {
@@ -13,10 +14,10 @@ class UserControllers {
                 return token;
             }else {
                 return { message: 'invalid token'};
-            }
+            };
         }else {
             return null;
-        }
+        };
     };
 
     async register(body) {
@@ -28,7 +29,8 @@ class UserControllers {
             const createdUser = await UserServices.createUser(body, hashPass);
             return createdUser;
         } return null;
-    }
+    };
+
 };
 
 module.exports = new UserControllers();

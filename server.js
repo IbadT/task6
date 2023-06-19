@@ -1,21 +1,3 @@
-// const express = require('express');
-// const app = express();
-// const routes = require('./routes/index.js');
-
-// app.use(express.json());
-
-// app.use('/api', routes);
-
-// app.listen(5000, () => console.log('Server is started...'));
-
-
-
-
-
-
-
-
-
 require('dotenv').config();
 const express = require('express');
 const app = express();
@@ -45,7 +27,7 @@ const options = {
       }, 
     }, 
   }, 
-  apis: ["./routes/*.js"] 
+  apis: ["./routes/*.js"]
 }
 
 const swaggerDocs = swaggerJsDoc(options);
@@ -55,3 +37,5 @@ const routes = require('./routes/index.js');
 app.use('/api', routes);
 
 app.listen(process.env.PORT, () => console.log('Server is started...'));
+
+module.exports = app;

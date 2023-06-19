@@ -1,6 +1,7 @@
 const PhoneServices = require('../services/PhoneServices.js');
 
 class PhoneControllers {
+    
     async getAllPhones() {
         const phones = await PhoneServices.getAllPhones();
         return phones

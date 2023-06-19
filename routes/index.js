@@ -1,17 +1,3 @@
-// const express = require('express');
-// const router = express.Router();
-
-// const postsRoutes = require('./postsRoutes.js');
-// router.use('/posts', postsRoutes);
-
-// module.exports = router;
-
-
-
-
-
-
-
 const router = require('express').Router();
 
 const todosRoutes = require('./todosRoutes.js');
@@ -22,5 +8,11 @@ router.use('/phones', phoneRoutes);
 
 const auth = require('./authorization.js');
 router.use('/auth', auth);
+
+const position = require('./positionRoutes.js');
+router.use('/position', position);
+
+const UPRoutes = require('./UPRoutes.js');
+router.use('/userPosition', UPRoutes);
 
 module.exports = router;

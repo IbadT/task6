@@ -1,6 +1,7 @@
 const { Phones } = require('../models/_models.js');
 
 class PhoneServices {
+
     async getAllPhones() {
         return new Promise((res, rej) => {
             Phones.findAll().then(data => res(data));
@@ -14,9 +15,9 @@ class PhoneServices {
     };
 
     async updatePhone(id, body) {
-        return new Promise((res, rej) => {
-            Phones.update(body, { where: { id }});
-            Phones.findOne({ where: { id }}).then(data => res(data));
+        return new Promise(async (res, rej) => {
+            await Phones.update(body, { where: { id }});
+            await Phones.findOne({ where: { id }}).then(data => res(data));
         })
     };
 
@@ -24,7 +25,8 @@ class PhoneServices {
         return new Promise((res, rej) => {
             Phones.destroy({ where: { id } }).then(result => res(result));
         })
-    }
+    };
+
 };
 
 module.exports = new PhoneServices();
