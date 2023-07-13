@@ -53,7 +53,7 @@
 const Sequelize = require('sequelize');
 
 module.exports = new Sequelize(
-    'testdb',
+    'tasksix',
     'postgres',
     'admin',
     {

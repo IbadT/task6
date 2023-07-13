@@ -6,15 +6,54 @@ const {
         UserPositions 
     } = require('./models/_models.js');
 const fs = require('fs');
-const data = JSON.parse(fs.readFileSync("./data/data.json", "utf8"));
 
 (async () => {
-    Todos.create(data[0]);
-    Users.create(data[1]);
-    Phones.create(data[2]);
-    Positions.create(data[3]);
-    UserPositions.create(data[4]);
+    fs.readFile("./data/data.json", 'utf8', (err, stringData) => {
+        if(err) throw new Error(err);
+        const data = JSON.parse(stringData);
+      
+        Users.sync({force: true}).then(async () => {
+          console.log("Done");
+          await Users.create(data[1])
+        })
+      
+        Todos.sync({force: true}).then(async () => {
+          console.log("Done");
+          await Todos.create(data[0])
+        })
+        
+        Phones.sync({force: true}).then(async () => {
+          console.log("Done");
+          await Phones.create(data[2])
+        })
+        
+        Positions.sync({force: true}).then(async () => {
+          console.log("Done");
+          await Positions.create(data[3]);
+        })
+        
+        UserPositions.sync({force: true}).then(async () => {
+          console.log("Done");
+          await UserPositions.create(data[4])
+        })
+      })
 })();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

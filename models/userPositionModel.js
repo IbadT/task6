@@ -1,11 +1,11 @@
 const { DataTypes } = require("sequelize");
 const db = require("../config/database.js");
-const User = require("./userModel.js");
-const Position = require("./positionModel.js");
+const Users = require("./userModel.js");
+const Positions = require("./positionModel.js");
 
 
 const UserPositions = db.define(
-  "user_position", 
+  "user_positions", 
   {
     id: {
       primaryKey: true,
@@ -17,7 +17,7 @@ const UserPositions = db.define(
       allowNull: false,
       type: DataTypes.INTEGER,
       references: {
-        model: User,
+        model: Users,
         key: "id",
       },
     },
@@ -25,7 +25,7 @@ const UserPositions = db.define(
       allowNull: false,
       type: DataTypes.INTEGER,
       references: {
-        model: Position,
+        model: Positions,
         key: "id",
       },
     },

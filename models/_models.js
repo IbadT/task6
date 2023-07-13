@@ -4,11 +4,11 @@ const Phones = require("./phoneModel.js");
 const Positions = require("./positionModel.js");
 const UserPositions = require("./userPositionModel.js");
 
-Users.hasMany(Todos, { foreignKey: "user_id" });// user_id
-Todos.belongsTo(Users, { foreignKey: "id" }); // id
+Users.hasMany(Todos, { foreignKey: "user_id" });
+Todos.belongsTo(Users, { foreignKey: "id" }); 
 
-Users.hasMany(Phones, { foreignKey: "user_id" });// user_id
-Phones.belongsTo(Users, { foreignKey: "id" }); // id
+Users.hasMany(Phones, { foreignKey: "user_id" });
+Phones.belongsTo(Users, { foreignKey: "id" }); 
 
 Users.belongsToMany(Positions, { through: "UserPositions" });
 Positions.belongsToMany(Users, { through: "UserPositions" });
@@ -18,13 +18,80 @@ Positions.belongsToMany(Users, { through: "UserPositions" });
 
 
 
+// fs.readFile("./data/data.json", 'utf8', (err, stringData) => {
+//   if(err) throw new Error(err);
+//   const data = JSON.parse(stringData);
 
-// Position.sync({ force: true }).then(async () => {
-//   console.log('Position is created');
-//   await Position.create({
-//     "position_name": "Backend"
+//   Users.sync({force: true}).then(async () => {
+//     console.log("Done");
+//     await Users.create(data[1])
 //   })
+
+//   Todos.sync({force: true}).then(async () => {
+//     console.log("Done");
+//     await Todos.create(data[0])
+//   })
+  
+//   Phones.sync({force: true}).then(async () => {
+//     console.log("Done");
+//     await Phones.create(data[2])
+//   })
+  
+//   Positions.sync({force: true}).then(async () => {
+//     console.log("Done");
+//     await Positions.create(data[3]);
+//   })
+  
+//   UserPositions.sync({force: true}).then(async () => {
+//     console.log("Done");
+//     await UserPositions.create(data[4])
+//   })
+// })
+
+
+
+
+// Users.sync({force: true}).then(async () => {
+//   console.log("Done");
+//   await Users.create(data[1])
+// }).catch((error) => {
+//   console.log('Error creating table:', error);
 // });
+
+// Todos.sync({force: true}).then(async () => {
+//   console.log("Done");
+//   await Todos.create(data[0])
+// }).catch((error) => {
+//   console.log('Error creating table:', error);
+// });
+
+// Phones.sync({force: true}).then(async () => {
+//   console.log("Done");
+//   await Phones.create(data[2])
+// }).catch((error) => {
+//   console.log('Error creating table:', error);
+// });
+
+// Positions.sync({force: true}).then(async () => {
+//   console.log("Done");
+//   await Positions.create(data[3]);
+// }).catch((error) => {
+//   console.log('Error creating table:', error);
+// });
+
+// UserPositions.sync({force: true}).then(async () => {
+//   console.log("Done");
+//   await UserPositions.create(data[4])
+// }).catch((error) => {
+//   console.log('Error creating table:', error);
+// });
+
+
+
+
+
+
+
 
 // Position.sync().then(async () => {
 //   console.log('!!!! POSITION !!!!');
@@ -39,13 +106,65 @@ Positions.belongsToMany(Users, { through: "UserPositions" });
 // })
 
 
-// UserPosition.sync({ force: true }).then(async () => {
+// UserPositions.sync({ force: true }).then(async () => {
 //   console.log('UserPosition was created')
-//   // await UserPosition.create({
-//   //   "userId": 1,
-//   //   "positionId": 1
-//   // })
+//   await UserPositions.create({
+//     "user_id": 1,
+//     "position_id": 1
+//   })
 // })
+
+
+// Users.sync({force: true}).then(async () => {
+//   console.log('Users be edited')
+//   await Users.create(  
+//     {
+//       name: "John",
+//       age: 12,
+//       login: "ibadt",
+//       password: "12345678"
+//     }
+//   )
+// })
+
+// Positions.sync({ force: true }).then(async () => {
+//   console.log('Position is created');
+//   await Positions.create({
+//     "id": 1,
+//     "position_name": "Backend"
+//   })
+// });
+
+
+
+// Todos.sync({ force: true }).then(async () => {
+//   console.log('Todos is created');
+//   await Positions.create({
+//     "title": "Backend",
+//     "content": "Content",
+//     "user_id": 1,
+//   })
+// });
+
+// Phones.sync({ force: true }).then(async () => {
+//   console.log('Phones is created');
+//   await Positions.create({
+//     "position_name": "Backend"
+//   })
+// });
+
+// UserPositions.sync({ force: true }).then(async () => {
+//   console.log('UserPositions is created');
+//   await Positions.create({
+//     "position_name": "Backend"
+//   })
+// });
+
+
+
+
+
+
 
 
 
